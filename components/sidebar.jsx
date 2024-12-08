@@ -1,24 +1,19 @@
 "use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { menuItems } from "@/constant/menuitems";
-import { FaBars, FaTimes, FaHome, FaImage, FaVideo, FaList } from "react-icons/fa";
+import { FaBars, FaTimes } from "react-icons/fa";
+import Link from "next/link";
 
 export default function Sidebar({ isSidebarOpen, setIsSidebarOpen, className }) {
+  const currentPath = usePathname();
   const [active, setActive] = useState("Dashboard");
   const router = useRouter();
 
-  const handleClick = (item) => {
-    setActive(item.name);
-    router.push(item.url);
-    if (window.innerWidth < 640) {
-      setIsSidebarOpen(false);
-    }
-  };
-
-  const handleLogoClick = () => {
-    router.push("/");
-  };
+  useEffect(() => {
+    const currentMenu = menuItems.find((item) => item.url === currentPath)
+    setActive(currentMenu?.name ?? "");
+  }, [currentPath])
 
   return (
     <div
@@ -29,9 +24,9 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen, className }) 
       `}
     >
       <div className={`${isSidebarOpen ? "sm:block" : "hidden sm:block"}`}>
-        <div
-          className="w-full text-4xl font-extrabold cursor-pointer mb-6 text-center transition-transform transform hover:scale-110 hover:text-indigo-500 hover:shadow-lg hover:shadow-indigo-300"
-          onClick={handleLogoClick}
+        <Link
+          href={'/'}
+          className="block w-full text-4xl font-extrabold cursor-pointer mb-6 text-center transition-transform transform hover:scale-110 hover:text-indigo-500 hover:shadow-lg hover:shadow-indigo-300"
         >
           <div className="flex w-full justify-center items-center">
             <span className="bg-gradient-to-r from-indigo-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
@@ -41,7 +36,7 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen, className }) 
               PNR
             </span>
           </div>
-        </div>
+        </Link>
 
         <div className="w-full flex justify-center items-center">
           <button
@@ -56,20 +51,21 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen, className }) 
           {menuItems
             .filter((item) => item.name.trim() !== "")
             .map((item) => (
-              <li
-                key={item.name}
-                onClick={() => handleClick(item)}
-                className={`flex sm:justify-start justify-center items-center space-x-4 p-3 rounded-lg cursor-pointer
-                  ${
-                    active === item.name
-                      ? "bg-blue-500 text-white"
-                      : "text-gray-600 hover:bg-gray-100"
-                  }`}
-              >
-                <span className="text-lg font-medium">{item.icon}</span>
-                <div>
-                  {isSidebarOpen && <span className="font-medium">{item.name}</span>}
-                </div>
+              <li key={item.name}>
+                <Link
+                  href={item.url}
+                  className={`flex sm:justify-start justify-center items-center space-x-4 p-3 rounded-lg cursor-pointer
+                    ${
+                      active === item.name
+                        ? "bg-blue-500 text-white"
+                        : "text-gray-600 hover:bg-gray-100"
+                    }`}
+                >
+                  <span className="text-lg font-medium">{item.icon}</span>
+                  <div>
+                    {isSidebarOpen && <span className="font-medium">{item.name}</span>}
+                  </div>
+                </Link>
               </li>
             ))
           }

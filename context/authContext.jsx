@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import { onAuthStateChanged, signInWithPopup } from "firebase/auth";
 import { BACKEND_URL } from "@/constant/configuration";
 import { getCookie } from "@/utils/util";
+import { toast } from "react-toastify";
 
 const AuthContext = createContext(null);
 
@@ -42,14 +43,12 @@ export const AuthContextProvider = ({ children }) => {
             photoUrl: data.user.picture
           })
   
+          toast.success("Login Successful");
         } else {
-          const errorData = await response.json();
-          console.log("Login failed:", errorData.message);
-          alert("Login failed: " + errorData.message);
+          toast.error("Login failed");
         }
       } catch (error) {
-        console.log("Login error:", error);
-        alert("An error occurred during login.");
+        toast.error("An error occurred during login.");
       } finally {
         setLoading(false);
       }
@@ -91,7 +90,7 @@ export const AuthContextProvider = ({ children }) => {
       const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
         if (authUser) {
           setLoading(true);
-          const idToken = authUser.getIdToken();
+          const idToken = await authUser.getIdToken();
 
           await fetch(`${BACKEND_URL}/auth/google`, {
             method: "POST",

@@ -5,6 +5,7 @@ import { FaEye, FaFilter } from "react-icons/fa";
 import { useRouter, useSearchParams } from "next/navigation";
 import { UserAuth } from "@/context/authContext";
 import { BACKEND_URL } from "@/constant/configuration";
+import Link from "next/link";
 
 export default function VehicleList() {
   const router = useRouter();
@@ -174,12 +175,12 @@ export default function VehicleList() {
         Header: "Actions",
         accessor: "id", 
         Cell: ({ value }) => (
-          <button
-            onClick={() => router.push(`/list/${value}`)}
+          <Link
+            href={`/list/${value}`}
             className="text-blue-500 hover:text-blue-700 flex items-center space-x-2"
           >
             <FaEye /> <span>Detail</span>
-          </button>
+          </Link>
         ),
       }
     ],
@@ -258,54 +259,61 @@ export default function VehicleList() {
       </div>
 
       {/* Table */}
-      <div className="overflow-auto bg-white shadow-lg rounded-lg w-full max-w-5xl">
-        <table
-          {...getTableProps()}
-          className="min-w-full border-collapse border border-gray-200"
-        >
-          <thead className="bg-gradient-to-r from-blue-500 to-blue-700 text-white">
-            {headerGroups.map((headerGroup, groupIndex) => (
-              <tr {...headerGroup.getHeaderGroupProps()} key={groupIndex}>
-                {headerGroup.headers.map((column, colIndex) => (
-                  <th
-                    {...column.getHeaderProps()}
-                    className="py-4 px-6 text-left text-sm font-semibold uppercase tracking-wide"
-                    key={colIndex}
-                  >
-                    {column.render("Header")}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-
-          <tbody
-            {...getTableBodyProps()}
-            className="bg-white divide-y divide-gray-200"
+      {loading ? (
+        <div className="flex justify-center items-center py-10">
+          <div className="animate-spin rounded-full border-t-4 border-blue-500 h-12 w-12"></div>
+        </div>
+      ) : (
+        // Table
+        <div className="overflow-auto bg-white shadow-lg rounded-lg w-full max-w-5xl">
+          <table
+            {...getTableProps()}
+            className="min-w-full border-collapse border border-gray-200"
           >
-            {rows.map((row) => {
-              prepareRow(row);
-              return (
-                <tr
-                  {...row.getRowProps()}
-                  key={row.id}
-                  className="hover:bg-gray-100 transition-colors"
-                >
-                  {row.cells.map((cell) => (
-                    <td
-                      {...cell.getCellProps()}
-                      className="py-4 px-6 text-sm text-gray-800"
-                      key={`${cell.row.id}-${cell.column.id}`}
+            <thead className="bg-gradient-to-r from-blue-500 to-blue-700 text-white">
+              {headerGroups.map((headerGroup, groupIndex) => (
+                <tr {...headerGroup.getHeaderGroupProps()} key={groupIndex}>
+                  {headerGroup.headers.map((column, colIndex) => (
+                    <th
+                      {...column.getHeaderProps()}
+                      className="py-4 px-6 text-left text-sm font-semibold uppercase tracking-wide"
+                      key={colIndex}
                     >
-                      {cell.render("Cell")}
-                    </td>
+                      {column.render("Header")}
+                    </th>
                   ))}
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+              ))}
+            </thead>
+
+            <tbody
+              {...getTableBodyProps()}
+              className="bg-white divide-y divide-gray-200"
+            >
+              {rows.map((row) => {
+                prepareRow(row);
+                return (
+                  <tr
+                    {...row.getRowProps()}
+                    key={row.id}
+                    className="hover:bg-gray-100 transition-colors"
+                  >
+                    {row.cells.map((cell) => (
+                      <td
+                        {...cell.getCellProps()}
+                        className="py-4 px-6 text-sm text-gray-800"
+                        key={`${cell.row.id}-${cell.column.id}`}
+                      >
+                        {cell.render("Cell")}
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {/* Pagination */}
       <div className="flex space-x-2 mt-4">

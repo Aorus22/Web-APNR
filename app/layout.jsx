@@ -9,6 +9,8 @@ import TopBar from '@/components/topbar';
 import NextTopLoader from 'nextjs-toploader';
 import { AuthContextProvider } from '@/context/authContext';
 import { Suspense } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
@@ -31,6 +33,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`antialiased flex w-screen overflow-x-hidden`}>
+        <NextTopLoader showSpinner={false} />
+        <ToastContainer 
+          position='bottom-right'
+        />
         <AuthContextProvider>
           <Sidebar 
             isSidebarOpen={isSidebarOpen} 
@@ -39,14 +45,15 @@ export default function RootLayout({ children }) {
           />
 
           <div className={`w-full ${isLandingPage ? "" : (isSidebarOpen  ? "sm:ml-64" : "sm:ml-20")}`}>
-            <NextTopLoader />
             <TopBar 
               isSidebarOpen={isSidebarOpen} 
               setIsSidebarOpen={setIsSidebarOpen} 
               className={`${isLandingPage ? "hidden" : ""}`}  
             />
             <main className={`${isLandingPage ? "" : "flex mt-24 w-full"}`}>
-              <Suspense>{children}</Suspense>
+              <Suspense>
+                {children}
+              </Suspense>
             </main>
           </div>
         </AuthContextProvider>
