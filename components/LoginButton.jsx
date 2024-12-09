@@ -12,7 +12,7 @@ export default function LoginButton() {
       {!user ? (
         <button
           onClick={handleLogin}
-          className={`px-6 py-3 rounded-lg text-white transition bg-blue-600 hover:bg-blue-700`}
+          className={`px-6 py-3 rounded-lg text-black transition hover:text-white bg-white hover:bg-blue-700`}
         >
           Login
         </button>

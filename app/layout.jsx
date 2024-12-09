@@ -4,13 +4,13 @@ import { usePathname } from 'next/navigation';
 import localFont from "next/font/local";
 import "./globals.css";
 import { useState } from 'react';
-import Sidebar from '@/components/sidebar';
-import TopBar from '@/components/topbar';
 import NextTopLoader from 'nextjs-toploader';
 import { AuthContextProvider } from '@/context/authContext';
 import { Suspense } from "react";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from '@/components/Sidebar';
+import TopBar from '@/components/Topbar';
 
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
@@ -32,19 +32,19 @@ export default function RootLayout({ children }) {
   // <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`antialiased flex w-screen overflow-x-hidden`}>
+      <body className={`antialiased flex w-screen !overflow-x-hidden`}>
         <NextTopLoader showSpinner={false} />
         <ToastContainer 
           position='bottom-right'
         />
         <AuthContextProvider>
-          <Sidebar 
+          <Sidebar
             isSidebarOpen={isSidebarOpen} 
             setIsSidebarOpen={setIsSidebarOpen}
             className={`${isLandingPage ? "hidden" : ""}`}
           />
 
-          <div className={`w-full ${isLandingPage ? "" : (isSidebarOpen  ? "sm:ml-64" : "sm:ml-20")}`}>
+          <div className={`w-full ${isLandingPage ? "" : (isSidebarOpen  ? "sm:pl-64" : "sm:pl-20")}`}>
             <TopBar 
               isSidebarOpen={isSidebarOpen} 
               setIsSidebarOpen={setIsSidebarOpen} 

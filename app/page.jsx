@@ -3,7 +3,7 @@ import { FaCamera, FaDatabase, FaCheckCircle, FaFileAlt, FaCogs } from "react-ic
 import { FaArrowRight } from "react-icons/fa";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import LoginButton from "@/components/login_button";
+import LoginButton from "@/components/LoginButton";
 import { UserAuth } from "@/context/authContext";
 
 export default function LandingPage() {
@@ -23,8 +23,8 @@ export default function LandingPage() {
     <div className="min-h-screen bg-gray-100">
 
     {/* Header */}
-    <header className="bg-blue-900 text-white p-2 sm:p-2 fixed top-0 w-full z-20">
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
+    <header className="bg-indigo-800 text-white p-2 sm:p-2 fixed top-0 w-full z-20">
+      <div className="sm:px-8 mx-auto flex justify-between items-center">
         <div className="text-lg sm:text-2xl font-semibold">APNR</div>
         <nav>
           <ul className="flex space-x-4 sm:space-x-6 text-sm sm:text-base">
@@ -36,11 +36,6 @@ export default function LandingPage() {
             <li>
               <Link href="#how-it-works" className="hover:text-gray-300">
                 How it Works
-              </Link>
-            </li>
-            <li>
-              <Link href="#contact" className="hover:text-gray-300">
-                Contact
               </Link>
             </li>
           </ul>
@@ -85,18 +80,17 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-12">Key Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-gray-100 p-8 rounded-lg shadow-md">
-              <div className="text-4xl text-blue-600 mb-4 flex justify-center">
+            <div className="bg-indigo-50 p-8 rounded-lg">
+              <div className="text-4xl text-indigo-600 mb-4 flex justify-center">
                 <FaCamera />
               </div>
-              <h3 className="text-xl font-semibold mb-4">Real-time Recognition</h3>
+              <h3 className="text-xl font-semibold mb-4">Image Recognition</h3>
               <p>
-                Instantly detect and log vehicle plate numbers in real-time for
-                better monitoring and security.
+                Upload vehicle images to detect and log plate numbers efficiently for better monitoring and security.
               </p>
             </div>
-            <div className="bg-gray-100 p-8 rounded-lg shadow-md">
-              <div className="text-4xl text-blue-600 mb-4 flex justify-center">
+            <div className="bg-indigo-50 p-8 rounded-lg">
+              <div className="text-4xl text-indigo-600 mb-4 flex justify-center">
                 <FaDatabase />
               </div>
               <h3 className="text-xl font-semibold mb-4">Data Storage</h3>
@@ -105,8 +99,8 @@ export default function LandingPage() {
                 future reference.
               </p>
             </div>
-            <div className="bg-gray-100 p-8 rounded-lg shadow-md">
-              <div className="text-4xl text-blue-600 mb-4 flex justify-center">
+            <div className="bg-indigo-50 p-8 rounded-lg">
+              <div className="text-4xl text-indigo-600 mb-4 flex justify-center">
                 <FaCheckCircle />
               </div>
               <h3 className="text-xl font-semibold mb-4">Accuracy</h3>
@@ -125,18 +119,18 @@ export default function LandingPage() {
           <h2 className="text-3xl font-bold mb-12 text-center">How It Works</h2>
           <div className="max-w-2xl mx-auto relative">
             {/* Vertical line */}
-            <div className="absolute left-8 top-10 w-0.5 h-[75%] bg-blue-300" />
+            <div className="absolute left-8 top-10 w-0.5 h-[75%] bg-indigo-300" />
             
             {/* Steps */}
             <div className="space-y-8">
               {/* Step 1 */}
               <div className="flex items-start gap-6">
                 <div className="mt-9 relative">
-                  <div className="w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center text-white">
+                  <div className="w-16 h-16 rounded-full bg-indigo-600 flex items-center justify-center text-white">
                     <FaCamera className="w-6 h-6" />
                   </div>
                 </div>
-                <div className="bg-white rounded-xl shadow-md p-6 flex-1">
+                <div className="bg-white rounded-xl p-6 flex-1">
                   <h3 className="text-xl font-semibold mb-2">Capture Images</h3>
                   <p className="text-gray-600">
                     Simply upload images or videos containing vehicles. Our system
@@ -148,11 +142,11 @@ export default function LandingPage() {
               {/* Step 2 */}
               <div className="flex items-start gap-6">
                 <div className="mt-9 relative">
-                  <div className="w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center text-white">
+                  <div className="w-16 h-16 rounded-full bg-indigo-600 flex items-center justify-center text-white">
                     <FaCogs className="w-6 h-6" />
                   </div>
                 </div>
-                <div className="bg-white rounded-xl shadow-md p-6 flex-1">
+                <div className="bg-white rounded-xl p-6 flex-1">
                   <h3 className="text-xl font-semibold mb-2">Data Processing</h3>
                   <p className="text-gray-600">
                     The system processes the images/videos, extracting plate numbers
@@ -164,11 +158,11 @@ export default function LandingPage() {
               {/* Step 3 */}
               <div className="flex items-start gap-6">
                 <div className="mt-9 relative">
-                  <div className="w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center text-white">
+                  <div className="w-16 h-16 rounded-full bg-indigo-600 flex items-center justify-center text-white">
                     <FaFileAlt className="w-6 h-6" />
                   </div>
                 </div>
-                <div className="bg-white rounded-xl shadow-md p-6 flex-1">
+                <div className="bg-white rounded-xl p-6 flex-1">
                   <h3 className="text-xl font-semibold mb-2">View Results</h3>
                   <p className="text-gray-600">
                     Access detailed reports and records of recognized vehicles,
@@ -182,9 +176,17 @@ export default function LandingPage() {
       </section>
 
       {/* Footer Section */}
-      <footer id="contact" className="bg-blue-900 text-white py-12">
+      <footer id="contact" className="bg-indigo-900 text-white pt-8 pb-4">
         <div className="max-w-7xl mx-auto text-center">
           <p>&copy; 2024 APNR. All Rights Reserved.</p>
+          <div className="flex items-center justify-center mt-2 space-x-2">
+            <span>Powered by</span>
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"
+              alt="React Logo"
+              className="w-6 h-6"
+            />
+          </div>
           <div className="mt-4">
             <ul className="flex justify-center space-x-6">
               <li>

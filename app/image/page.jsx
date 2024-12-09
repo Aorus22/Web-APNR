@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FaImage, FaTimes } from "react-icons/fa";
+import { FaFileDownload, FaImage, FaTimes } from "react-icons/fa";
 import NProgress from "nprogress";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { useRouter } from "next/navigation";
@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 export default function ImagesPage() {
   const [imageFile, setImageFile] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
+  const [urlLoading, setUrlLoading] = useState(false);
   const [isValidImage, setIsValidImage] = useState(true);
   const [dragging, setDragging] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -46,14 +47,27 @@ export default function ImagesPage() {
     setImageUrl(e.target.value);
   };
 
-  const handleUrlSubmit = () => {
+  const handleUrlSubmit = async () => {
+    setUrlLoading(true);
     const regex = /\.(jpeg|jpg|gif|png)$/i;
     if (regex.test(imageUrl)) {
-      setImageFile(null);
-      setIsValidImage(true);
+      try {
+        const response = await fetch(imageUrl, { method: "GET" });
+        const blob = await response.blob();
+        const fileName = imageUrl.split('/').pop()?.split('?')[0] || "image";
+        const file = new File([blob], fileName, { type: blob.type });
+  
+        setImageFile(file);
+        setIsValidImage(true);
+      } catch (error) {
+        console.error("Error fetching image from URL:", error);
+        setIsValidImage(false);
+        toast.error("Failed to load image from the provided URL.");
+      }
     } else {
       setIsValidImage(false);
     }
+    setUrlLoading(false);
   };
 
   const handleCheckPlateNumber = async () => {
@@ -110,7 +124,7 @@ export default function ImagesPage() {
       {!imageFile && (
         <div className={`relative flex flex-col justify-center items-center w-full`}>
           <div
-            className={`w-full max-w-5xl bg-gray-100 p-6 rounded-lg shadow-lg border-2 border-dashed ${
+            className={`w-full max-w-5xl bg-gray-100 p-6 rounded-lg border-2 border-dashed ${
               dragging ? "border-indigo-600" : "border-gray-300"
             }`}
             onDragEnter={handleDragEnter}
@@ -132,7 +146,7 @@ export default function ImagesPage() {
               </p>
 
               <div className="flex justify-center my-4">
-                <FaImage className="text-gray-600 text-8xl" />
+                <FaImage className="text-gray-500 text-8xl" />
               </div>
 
               <p className="block text-center text-indigo-600 hover:text-indigo-700">
@@ -140,7 +154,7 @@ export default function ImagesPage() {
               </p>
             </label>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow-lg mt-6 max-w-5xl w-full">
+          <div className="bg-white p-6 rounded-lg mt-6 max-w-5xl w-full">
             <label
               htmlFor="image-url"
               className="block text-lg font-medium text-gray-700 mb-2"
@@ -153,23 +167,36 @@ export default function ImagesPage() {
                 id="image-url"
                 value={imageUrl}
                 onChange={handleUrlChange}
-                className="p-3 border border-gray-300 rounded-l-lg w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                disabled={urlLoading}
+                className="p-3 border border-gray-300 rounded-l-lg w-full focus:outline-none focus:ring-1 focus:ring-indigo-500"
                 placeholder="Enter image URL"
               />
-              <button
-                onClick={handleUrlSubmit}
-                className="bg-indigo-600 text-white px-6 py-3 rounded-r-lg hover:bg-indigo-700 transition duration-200"
-              >
-                Submit
-              </button>
+                <button
+                  onClick={handleUrlSubmit}
+                  disabled={urlLoading}
+                  className={`px-6 py-4 rounded-r-lg transition duration-200 flex items-center justify-center ${
+                    urlLoading
+                      ? "bg-gray-400 text-gray-700 cursor-not-allowed"
+                      : "bg-indigo-600 text-white hover:bg-indigo-700"
+                  }`}
+                >
+                  {urlLoading ? (
+                    <div
+                      className="w-5 h-5 border-2 border-t-transparent border-white rounded-full animate-spin"
+                      role="status"
+                    />
+                  ) : (
+                    <FaFileDownload />
+                  )}
+                </button>
             </div>
           </div>
         </div>
       )}
 
-      {(imageFile || imageUrl) && (
+      {imageFile && (
         <div className="w-full flex justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg mt-6 relative max-w-5xl w-full">
+          <div className="bg-white p-6 rounded-lg mt-6 border-2 border-dashed relative max-w-5xl w-full">
             <div className="absolute right-8 flex justify-end">
               <button 
                 onClick={() => {
@@ -180,17 +207,11 @@ export default function ImagesPage() {
               </button>
             </div>
             <div className="flex justify-center">
-              {imageFile ? (
+              {imageFile && (
                 <img
                   src={URL.createObjectURL(imageFile)}
                   alt="Uploaded"
-                  className="max-w-full max-h-96 object-contain rounded-lg shadow-md"
-                />
-              ) : (
-                <img
-                  src={imageUrl}
-                  alt="Image URL"
-                  className="max-w-full max-h-96 object-contain rounded-lg shadow-md"
+                  className="max-w-full w-full h-auto max-h-96 object-contain rounded-lg"
                 />
               )}
             </div>

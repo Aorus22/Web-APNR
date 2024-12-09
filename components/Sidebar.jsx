@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { menuItems } from "@/constant/menuitems";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Link from "next/link";
@@ -8,7 +8,6 @@ import Link from "next/link";
 export default function Sidebar({ isSidebarOpen, setIsSidebarOpen, className }) {
   const currentPath = usePathname();
   const [active, setActive] = useState("Dashboard");
-  const router = useRouter();
 
   useEffect(() => {
     const currentMenu = menuItems.find((item) => item.url === currentPath)
@@ -19,14 +18,14 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen, className }) 
     <div
       className={`
         ${isSidebarOpen ? "w-full sm:w-64" : "w-0 invisible sm:visible sm:w-20"} 
-        fixed top-0 left-0 h-full bg-white shadow-lg p-4 transition-all duration-300 z-50
+        fixed top-0 left-0 h-full bg-white border p-4 transition-all duration-300 z-50
         ${className}
       `}
     >
       <div className={`${isSidebarOpen ? "sm:block" : "hidden sm:block"}`}>
         <Link
           href={'/'}
-          className="block w-full text-4xl font-extrabold cursor-pointer mb-6 text-center transition-transform transform hover:scale-110 hover:text-indigo-500 hover:shadow-lg hover:shadow-indigo-300"
+          className="block w-full text-4xl font-extrabold cursor-pointer mb-6 text-center transition-transform transform hover:scale-110 hover:text-indigo-500"
         >
           <div className="flex w-full justify-center items-center">
             <span className="bg-gradient-to-r from-indigo-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
@@ -38,7 +37,7 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen, className }) 
           </div>
         </Link>
 
-        <div className="w-full flex justify-center items-center">
+        <div className="sm:hidden w-full flex justify-center items-center">
           <button
             className="text-gray-600 focus:outline-none mb-6"
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
