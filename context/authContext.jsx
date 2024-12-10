@@ -111,7 +111,17 @@ export const AuthContextProvider = ({ children }) => {
           });
           setLoading(false);
         } else {
+          Cookies.remove("name");
+          Cookies.remove("email");
+          Cookies.remove("picture");
+          Cookies.remove("token")
+          
           setUser(null);
+
+          await fetch(`${BACKEND_URL}/logout`, {
+            method: "POST",
+            credentials: "include",
+          });
         }
       });
   

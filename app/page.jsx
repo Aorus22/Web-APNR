@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import LoginButton from "@/components/LoginButton";
 import { UserAuth } from "@/context/authContext";
+import Image from "next/image";
 
 export default function LandingPage() {
   const router = useRouter();
@@ -181,13 +182,9 @@ export default function LandingPage() {
           <p>&copy; 2024 APNR. All Rights Reserved.</p>
           <div className="flex items-center justify-center mt-2 space-x-2">
             <span>Powered by</span>
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"
-              alt="React Logo"
-              className="w-6 h-6"
-            />
+            <Image src={"/megalogic.svg"} width={24} height={24} alt="Megalogic logo" />
           </div>
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <ul className="flex justify-center space-x-6">
               <li>
                 <a href="https://facebook.com" target="_blank" className="hover:text-gray-300">
@@ -205,7 +202,7 @@ export default function LandingPage() {
                 </a>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
       </footer>
     </div>
